@@ -23,9 +23,7 @@ class Customer
       this_amount = element.total_cost
 
       # add frequent renter points
-      frequent_renter_points += 1
-      # add bonus for a two day new release rental
-      frequent_renter_points += 1 if element.movie.price_code == Movie::NEW_RELEASE && element.days_rented > 1
+      frequent_renter_points = element.renter_points_earned
 
       # show figures for this rental
       result += "\t" + element.movie.title + "\t" + this_amount.to_s + "\n"
