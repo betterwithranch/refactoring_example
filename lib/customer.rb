@@ -14,6 +14,10 @@ class Customer
     @rentals << arg
   end
 
+  def rentals
+    @rentals.clone
+  end
+
   def statement
     total_amount, frequent_renter_points = 0, 0
     result = "Rental Record for #{@name}\n"
@@ -23,7 +27,7 @@ class Customer
       this_amount = element.total_cost
 
       # add frequent renter points
-      frequent_renter_points = element.renter_points_earned
+      frequent_renter_points += element.renter_points_earned
 
       # show figures for this rental
       result += "\t" + element.movie.title + "\t" + this_amount.to_s + "\n"

@@ -27,6 +27,18 @@ describe Customer do
         lines = customer.statement.split("\n")
         lines[1].should =~ /\s*Shrek\s*\d+.*/
       end
+
+      it 'should calculate the total points for multiple rentals' do
+        customer.add_rental(Rental.new(regular_movie, 2))
+        customer.statement
+        customer.total_statement_amount.should == customer.rentals.map(&:total_cost).reduce(&:+)
+      end
+
+      it 'should calculate the total renter points for multiple rentals' do
+        customer.add_rental(Rental.new(regular_movie, 2))
+        customer.statement
+        customer.total_renter_points.should == customer.rentals.map(&:renter_points_earned).reduce(&:+)
+      end
     end
   end
 end
