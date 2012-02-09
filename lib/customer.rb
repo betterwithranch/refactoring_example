@@ -19,7 +19,7 @@ class Customer
     @rentals.each do |element|
 
       # determine amounts for each line
-      this_amount = element.rental_cost
+      this_amount = element.total_cost
 
       # add frequent renter points
       frequent_renter_points += 1

@@ -5,7 +5,7 @@ class Rental
     @movie, @days_rented = movie, days_rented
   end
 
-  def rental_cost
+  def total_cost
     this_amount = 0
     case @movie.price_code
     when Movie::REGULAR
