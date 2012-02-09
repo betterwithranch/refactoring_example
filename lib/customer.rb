@@ -1,5 +1,8 @@
 class Customer
   attr_reader :name
+  
+  # TODO: test seam - remove after refactor
+  attr_accessor :total_statement_amount
 
   def initialize(name)
     @name = name
@@ -37,6 +40,9 @@ class Customer
       result += "\t" + element.movie.title + "\t" + this_amount.to_s + "\n"
       total_amount += this_amount
     end
+
+    @total_statement_amount = total_amount
+
     # add footer lines
     result += "Amount owed is #{total_amount.to_s}\n"
     result += "You earned #{frequent_renter_points.to_s} frequent renter points"
