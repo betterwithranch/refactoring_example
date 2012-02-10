@@ -18,26 +18,23 @@ class Statement
   end
 
   def body
-    return @body if @body
-    @body = ''
-    @customer.rentals.each do |element|
-
-      # determine amounts for each line
-      this_amount = element.total_cost
-      @total_amount += this_amount
-
-      # add frequent renter points
-      @total_renter_points += element.renter_points_earned
-
-      # show figures for this rental
-      @body += "\t" + element.movie.title + "\t" + this_amount.to_s + "\n"
-    end
-    @body
+    @body ||= @customer.rentals.map {|rental| line_item(rental)}.join
   end
 
   def footer
     @footer ||= "Amount owed is #{@total_amount.to_s}\n" +
       "You earned #{@total_renter_points.to_s} frequent renter points"
+  end
+
+  def line_item(rental)
+
+    # determine amounts for each line
+    @total_amount += rental.total_cost
+
+    # add frequent renter points
+    @total_renter_points += rental.renter_points_earned
+
+    LineItem.new(rental)
   end
 
 end
