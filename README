@@ -1,3 +1,6 @@
-There are solutions for this particular problem all over the web.  Please don't use them :)  Use google as you would on any other project for technical questions.
+This refactoring feels pretty good to me.  I committed more frequently than normal to help document the 
+various refactorings as I applied them.
 
-There is no particular solution I'm looking for.  If you think this code is fine, great.
+The only thing I intentionally left out was the constantize method in the rental class.  
+Ideally, I would use active_support to get this behavior, or open up the String class and add it there.
+
