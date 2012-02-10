@@ -19,10 +19,6 @@ class Customer
   end
 
   def statement
-    s = Statement.new(self)
-    report = s.generate
-    @total_statement_amount = s.total_statement_amount
-    @total_renter_points = s.total_renter_points
-    report
+    Statement.new(self).generate
   end
 end

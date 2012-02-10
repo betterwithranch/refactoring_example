@@ -8,44 +8,11 @@ describe Customer do
   let(:new_release_movie) { Movie.new('Chronicle', Movie::NEW_RELEASE) }
 
   describe '#statement' do
-    context 'Statement output' do
-      before :each do
-        customer.add_rental(Rental.new(childrens_movie, 2))
-      end
-
-      it 'statement should start with header' do
-        customer.statement.should =~ /Rental Record for Craig\n.*/
-      end
-
-      it 'statement should end with footer' do
-        lines = customer.statement.split("\n")
-        lines[-2].should ==  "Amount owed is #{customer.rentals.map(&:total_cost).reduce(&:+)}" 
-        lines[-1].should == "You earned #{customer.rentals.map(&:renter_points_earned).reduce(&:+)} frequent renter points"
-      end
-
-      it 'should include a single rental' do
-        lines = customer.statement.split("\n")
-        lines[1].should == "\tShrek\t#{customer.rentals[0].total_cost}"
-      end
-
-      it 'should include multiple rentals' do
-        customer.add_rental(Rental.new(regular_movie, 2))
-        lines = customer.statement.split("\n")
-        lines[1].should == "\t#{customer.rentals[0].movie.title}\t#{customer.rentals[0].total_cost}"
-        lines[2].should == "\t#{customer.rentals[1].movie.title}\t#{customer.rentals[1].total_cost}"
-      end
-
-      it 'should calculate the total points for multiple rentals' do
-        customer.add_rental(Rental.new(regular_movie, 2))
-        customer.statement
-        customer.total_statement_amount.should == customer.rentals.map(&:total_cost).reduce(&:+)
-      end
-
-      it 'should calculate the total renter points for multiple rentals' do
-        customer.add_rental(Rental.new(regular_movie, 2))
-        customer.statement
-        customer.total_renter_points.should == customer.rentals.map(&:renter_points_earned).reduce(&:+)
-      end
+    it 'should use statement generator' do
+      statement = mock(Statement).as_null_object
+      statement.should_receive(:generate).and_return('statement contents')
+      Statement.should_receive(:new).and_return(statement)
+      customer.statement.should == 'statement contents'
     end
   end
 end
