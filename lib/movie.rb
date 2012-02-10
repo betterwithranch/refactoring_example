@@ -1,6 +1,7 @@
 class Movie
 
   CATEGORIES = { :regular => 0, :new_release => 1, :childrens => 2}
+  CATEGORIES_INVERTED = CATEGORIES.invert
 
   CATEGORIES.each do |k,v|
     self.const_set(k.upcase, v)
@@ -13,7 +14,8 @@ class Movie
     @title, @price_code = title, price_code
   end
 
-  def price_code_key
-    CATEGORIES.invert[price_code].to_s.split("_").map(&:capitalize).join
+  def category
+    CATEGORIES_INVERTED[price_code]
   end
+
 end

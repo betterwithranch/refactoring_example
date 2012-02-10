@@ -3,7 +3,7 @@ class Rental
 
   def initialize(movie, days_rented)
     @movie, @days_rented = movie, days_rented
-    self.extend Object.const_get("#{@movie.price_code_key}CostCalculator")
+    add_cost_calculator
   end
 
   def renter_points_earned
@@ -20,5 +20,11 @@ class Rental
 
   def total_cost
     base_cost + overdue_cost 
+  end
+
+  def add_cost_calculator
+    #constantize category to include calculator by convention
+    name = @movie.category.to_s.split("_").map(&:capitalize).join
+    self.extend Object.const_get("#{name}CostCalculator")
   end
 end
