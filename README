@@ -1,6 +1,4 @@
-This refactoring feels pretty good to me.  I committed more frequently than normal to help document the 
-various refactorings as I applied them.
+This refactoring feels pretty good to me.  I committed more frequently than normal to help document the various refactorings as I applied them.
 
-The only thing I intentionally left out was the constantize method in the rental class.  
-Ideally, I would use active_support to get this behavior, or open up the String class and add it there.
+The only thing I intentionally left out was the that I left the constantize method in the rental class which is the only class using it.  Ideally, I would use active_support to get this behavior, or open up the String class and add it there.
 
