@@ -5,36 +5,47 @@ class Statement
 
   def initialize(customer)
     @customer = customer
-  end
-
-  def generate
-    @header, @body, @footer = nil, nil, nil
     @total_amount, @total_renter_points = 0, 0
-    header + body + footer
+    generate
   end
 
   def header
-    @header ||= "Rental Record for #{@customer.name}\n"
+    "Rental Record for #{@customer.name}\n"
   end
 
   def body
-    @body ||= @customer.rentals.map {|rental| line_item(rental)}.join
+    @line_items.join
   end
 
   def footer
-    @footer ||= "Amount owed is #{@total_amount.to_s}\n" +
-      "You earned #{@total_renter_points.to_s} frequent renter points"
+    "Amount owed is #{@total_amount}\n" +
+    "You earned #{@total_renter_points} frequent renter points"
   end
 
-  def line_item(rental)
+  def to_s
+    header + body + footer
+  end
 
+  protected
+
+  def generate
+    process_rentals
+  end
+
+  def process_rentals
+    @line_items = @customer.rentals.map {|rental| process_rental(rental)}
+  end
+
+  def process_rental(rental)
+    calculate_totals(rental)
+    LineItem.new(rental)
+  end
+
+  def calculate_totals(rental)
     # determine amounts for each line
     @total_amount += rental.total_cost
 
     # add frequent renter points
     @total_renter_points += rental.renter_points_earned
-
-    LineItem.new(rental)
   end
-
 end

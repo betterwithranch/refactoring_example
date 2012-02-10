@@ -15,6 +15,6 @@ class Customer
   end
 
   def statement
-    Statement.new(self).generate
+    Statement.new(self).to_s
   end
 end
