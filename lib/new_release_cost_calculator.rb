@@ -6,4 +6,8 @@ module NewReleaseCostCalculator
   def overdue_cost
     0
   end
+
+  def overdue?
+    false
+  end
 end

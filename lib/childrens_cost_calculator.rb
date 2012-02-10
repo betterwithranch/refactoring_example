@@ -4,6 +4,10 @@ module ChildrensCostCalculator
   end
 
   def overdue_cost
-    ((@days_rented - 3) * 1.5 if @days_rented > 3) || 0
+    overdue? ? (@days_rented - 3) * 1.5 : 0
+  end
+
+  def overdue?
+    @days_rented > 3
   end
 end
