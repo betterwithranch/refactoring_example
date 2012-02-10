@@ -5,7 +5,6 @@ class Statement
 
   def initialize(customer)
     @customer = customer
-    @total_amount, @total_renter_points = 0, 0
     generate
   end
 
@@ -29,16 +28,11 @@ class Statement
   protected
 
   def generate
-    process_rentals
-  end
-
-  def process_rentals
-    @line_items = @customer.rentals.map {|rental| process_rental(rental)}
-  end
-
-  def process_rental(rental)
-    calculate_totals(rental)
-    LineItem.new(rental)
+    @total_amount, @total_renter_points = 0, 0
+    @line_items = @customer.rentals.map do |rental| 
+      calculate_totals(rental)
+      LineItem.new(rental)
+    end
   end
 
   def calculate_totals(rental)
